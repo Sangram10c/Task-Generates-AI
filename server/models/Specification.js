@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const taskSchema = new mongoose.Schema({
   id: {
@@ -7,7 +7,7 @@ const taskSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['user_story', 'engineering_task'],
+    enum: ["user_story", "engineering_task"],
     required: true,
   },
   title: {
@@ -20,8 +20,8 @@ const taskSchema = new mongoose.Schema({
   },
   priority: {
     type: String,
-    enum: ['high', 'medium', 'low'],
-    default: 'medium',
+    enum: ["high", "medium", "low"],
+    default: "medium",
   },
   groupId: {
     type: String,
@@ -44,7 +44,7 @@ const groupSchema = new mongoose.Schema({
   },
   color: {
     type: String,
-    default: '#3b82f6',
+    default: "#3b82f6",
   },
 });
 
@@ -65,19 +65,19 @@ const specificationSchema = new mongoose.Schema(
       },
       template: {
         type: String,
-        enum: ['mobile', 'web', 'internal_tool', 'custom'],
-        default: 'custom',
+        enum: ["mobile", "web", "internal_tool", "custom"],
+        default: "custom",
       },
     },
     tasks: [taskSchema],
     groups: [groupSchema],
     risks: {
       type: String,
-      default: '',
+      default: "",
     },
     unknowns: {
       type: String,
-      default: '',
+      default: "",
     },
     generatedAt: {
       type: Date,
@@ -86,7 +86,7 @@ const specificationSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-module.exports = mongoose.model('Specification', specificationSchema);
+module.exports = mongoose.model("Specification", specificationSchema);
