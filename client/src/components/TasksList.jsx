@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
@@ -30,11 +30,23 @@ const TasksList = () => {
   const [newGroupName, setNewGroupName] = useState("");
   const [showNewGroupForm, setShowNewGroupForm] = useState(false);
 
-  useEffect(() => {
-    fetchSpecification();
-  }, [id]);
+  // useEffect(() => {
+  //   fetchSpecification();
+  // }, [id]);
 
-  const fetchSpecification = async () => {
+  // const fetchSpecification = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const response = await getSpecification(id);
+  //     setSpecification(response.data);
+  //   } catch (err) {
+  //     setError("Failed to load specification");
+  //     console.error(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  const fetchSpecification = useCallback(async () => {
     try {
       setLoading(true);
       const response = await getSpecification(id);
@@ -45,7 +57,11 @@ const TasksList = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchSpecification();
+  }, [fetchSpecification]);
 
   const saveChanges = async (updatedData) => {
     try {
