@@ -1,21 +1,7 @@
-// import React from 'react';
-// import { Loader2 } from 'lucide-react';
+import React from "react";
+import { Loader2, Sparkles } from "lucide-react";
 
-// const LoadingSpinner = ({ size = 24, text = 'Loading...' }) => {
-//   return (
-//     <div className="loading-spinner">
-//       <Loader2 size={size} className="spinner-icon" />
-//       {text && <p>{text}</p>}
-//     </div>
-//   );
-// };
-
-// export default LoadingSpinner;
-
-import React from 'react';
-import { Loader2, Sparkles } from 'lucide-react';
-
-const LoadingSpinner = ({ size = 24, text = 'Loading...' }) => {
+const LoadingSpinner = ({ size = 24, text = "Loading..." }) => {
   return (
     <div className="flex flex-col items-center justify-center py-12 space-y-4">
       <div className="relative">

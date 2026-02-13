@@ -1,101 +1,17 @@
-// import React, { useState } from 'react';
-// import { X, Download, Copy, Check } from 'lucide-react';
-// import { exportAsText, exportAsMarkdown, downloadFile } from '../utils/exportUtils';
-
-// const ExportModal = ({ specification, onClose }) => {
-//   const [format, setFormat] = useState('markdown');
-//   const [copied, setCopied] = useState(false);
-
-//   const getExportContent = () => {
-//     if (format === 'markdown') {
-//       return exportAsMarkdown(specification);
-//     }
-//     return exportAsText(specification);
-//   };
-
-//   const handleCopy = async () => {
-//     const content = getExportContent();
-//     try {
-//       await navigator.clipboard.writeText(content);
-//       setCopied(true);
-//       setTimeout(() => setCopied(false), 2000);
-//     } catch (err) {
-//       console.error('Failed to copy:', err);
-//     }
-//   };
-
-//   const handleDownload = () => {
-//     const content = getExportContent();
-//     const extension = format === 'markdown' ? 'md' : 'txt';
-//     const filename = `specification-${Date.now()}.${extension}`;
-//     const mimeType = format === 'markdown' ? 'text/markdown' : 'text/plain';
-//     downloadFile(content, filename, mimeType);
-//   };
-
-//   return (
-//     <div className="modal-overlay" onClick={onClose}>
-//       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-//         <div className="modal-header">
-//           <h2>Export Specification</h2>
-//           <button onClick={onClose} className="btn-icon">
-//             <X size={20} />
-//           </button>
-//         </div>
-
-//         <div className="modal-body">
-//           <div className="export-format-selector">
-//             <label className="radio-label">
-//               <input
-//                 type="radio"
-//                 value="markdown"
-//                 checked={format === 'markdown'}
-//                 onChange={(e) => setFormat(e.target.value)}
-//               />
-//               <span>Markdown (.md)</span>
-//             </label>
-//             <label className="radio-label">
-//               <input
-//                 type="radio"
-//                 value="text"
-//                 checked={format === 'text'}
-//                 onChange={(e) => setFormat(e.target.value)}
-//               />
-//               <span>Plain Text (.txt)</span>
-//             </label>
-//           </div>
-
-//           <div className="export-preview">
-//             <pre>{getExportContent()}</pre>
-//           </div>
-//         </div>
-
-//         <div className="modal-footer">
-//           <button onClick={handleCopy} className="btn btn-secondary">
-//             {copied ? <Check size={18} /> : <Copy size={18} />}
-//             {copied ? 'Copied!' : 'Copy to Clipboard'}
-//           </button>
-//           <button onClick={handleDownload} className="btn btn-primary">
-//             <Download size={18} />
-//             Download File
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ExportModal;
-
-import React, { useState } from 'react';
-import { X, Download, Copy, Check, FileText, FileCode } from 'lucide-react';
-import { exportAsText, exportAsMarkdown, downloadFile } from '../utils/exportUtils';
+import React, { useState } from "react";
+import { X, Download, Copy, Check, FileText, FileCode } from "lucide-react";
+import {
+  exportAsText,
+  exportAsMarkdown,
+  downloadFile,
+} from "../utils/exportUtils";
 
 const ExportModal = ({ specification, onClose }) => {
-  const [format, setFormat] = useState('markdown');
+  const [format, setFormat] = useState("markdown");
   const [copied, setCopied] = useState(false);
 
   const getExportContent = () => {
-    if (format === 'markdown') {
+    if (format === "markdown") {
       return exportAsMarkdown(specification);
     }
     return exportAsText(specification);
@@ -108,15 +24,15 @@ const ExportModal = ({ specification, onClose }) => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
   const handleDownload = () => {
     const content = getExportContent();
-    const extension = format === 'markdown' ? 'md' : 'txt';
+    const extension = format === "markdown" ? "md" : "txt";
     const filename = `specification-${Date.now()}.${extension}`;
-    const mimeType = format === 'markdown' ? 'text/markdown' : 'text/plain';
+    const mimeType = format === "markdown" ? "text/markdown" : "text/plain";
     downloadFile(content, filename, mimeType);
   };
 
@@ -135,7 +51,9 @@ const ExportModal = ({ specification, onClose }) => {
             <div className="p-2 rounded-lg bg-gradient-to-br from-primary-500 to-secondary-500">
               <Download className="w-5 h-5 text-white" />
             </div>
-            <h2 className="text-2xl font-bold gradient-text">Export Specification</h2>
+            <h2 className="text-2xl font-bold gradient-text">
+              Export Specification
+            </h2>
           </div>
           <button
             onClick={onClose}
@@ -149,19 +67,21 @@ const ExportModal = ({ specification, onClose }) => {
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Format Selection */}
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-slate-700">Export Format</label>
+            <label className="text-sm font-semibold text-slate-700">
+              Export Format
+            </label>
             <div className="grid grid-cols-2 gap-4">
               <FormatOption
-                active={format === 'markdown'}
-                onClick={() => setFormat('markdown')}
+                active={format === "markdown"}
+                onClick={() => setFormat("markdown")}
                 icon={<FileCode className="w-5 h-5" />}
                 title="Markdown"
                 description="Perfect for GitHub, wikis, and documentation"
                 extension=".md"
               />
               <FormatOption
-                active={format === 'text'}
-                onClick={() => setFormat('text')}
+                active={format === "text"}
+                onClick={() => setFormat("text")}
                 icon={<FileText className="w-5 h-5" />}
                 title="Plain Text"
                 description="Simple text format for emails and notes"
@@ -172,7 +92,9 @@ const ExportModal = ({ specification, onClose }) => {
 
           {/* Preview */}
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-slate-700">Preview</label>
+            <label className="text-sm font-semibold text-slate-700">
+              Preview
+            </label>
             <div className="bg-slate-900 rounded-xl p-6 max-h-[400px] overflow-y-auto">
               <pre className="text-slate-100 text-sm font-mono whitespace-pre-wrap break-words">
                 {getExportContent()}
@@ -212,19 +134,26 @@ const ExportModal = ({ specification, onClose }) => {
   );
 };
 
-const FormatOption = ({ active, onClick, icon, title, description, extension }) => (
+const FormatOption = ({
+  active,
+  onClick,
+  icon,
+  title,
+  description,
+  extension,
+}) => (
   <button
     onClick={onClick}
     className={`text-left p-4 rounded-xl border-2 transition-all duration-200 ${
       active
-        ? 'border-primary-500 bg-primary-50 shadow-lg scale-105'
-        : 'border-slate-200 hover:border-primary-300 hover:shadow-md'
+        ? "border-primary-500 bg-primary-50 shadow-lg scale-105"
+        : "border-slate-200 hover:border-primary-300 hover:shadow-md"
     }`}
   >
     <div className="flex items-start space-x-3">
       <div
         className={`p-2 rounded-lg ${
-          active ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-600'
+          active ? "bg-primary-500 text-white" : "bg-slate-100 text-slate-600"
         }`}
       >
         {icon}

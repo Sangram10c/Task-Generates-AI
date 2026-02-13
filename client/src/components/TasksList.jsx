@@ -1,413 +1,6 @@
-// import React, { useState, useEffect } from 'react';
-// import { useParams, useNavigate } from 'react-router-dom';
-// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-// import {
-//   ArrowLeft,
-//   Download,
-//   Plus,
-//   AlertCircle,
-//   Trash2,
-//   FolderPlus,
-// } from 'lucide-react';
-// import TaskItem from './TaskItem';
-// import TaskGroup from './TaskGroup';
-// import ExportModal from './ExportModal';
-// import LoadingSpinner from './LoadingSpinner';
-// import { getSpecification, updateSpecification, deleteSpecification } from '../services/api';
-
-// const TasksList = () => {
-//   const { id } = useParams();
-//   const navigate = useNavigate();
-
-//   const [specification, setSpecification] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [showExportModal, setShowExportModal] = useState(false);
-//   const [newGroupName, setNewGroupName] = useState('');
-//   const [showNewGroupForm, setShowNewGroupForm] = useState(false);
-
-//   useEffect(() => {
-//     fetchSpecification();
-//   }, [id]);
-
-//   const fetchSpecification = async () => {
-//     try {
-//       setLoading(true);
-//       const response = await getSpecification(id);
-//       setSpecification(response.data);
-//     } catch (err) {
-//       setError('Failed to load specification');
-//       console.error(err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const saveChanges = async (updatedData) => {
-//     try {
-//       await updateSpecification(id, updatedData);
-//     } catch (err) {
-//       console.error('Failed to save changes:', err);
-//     }
-//   };
-
-//   const handleDragEnd = (result) => {
-//     if (!result.destination) return;
-
-//     const { source, destination, type } = result;
-
-//     if (type === 'TASK') {
-//       const updatedTasks = Array.from(specification.tasks);
-//       const [movedTask] = updatedTasks.splice(source.index, 1);
-
-//       // Update groupId based on destination
-//       if (destination.droppableId === 'ungrouped') {
-//         movedTask.groupId = null;
-//       } else {
-//         movedTask.groupId = destination.droppableId;
-//       }
-
-//       updatedTasks.splice(destination.index, 0, movedTask);
-
-//       // Update order
-//       updatedTasks.forEach((task, index) => {
-//         task.order = index;
-//       });
-
-//       const updatedSpec = { ...specification, tasks: updatedTasks };
-//       setSpecification(updatedSpec);
-//       saveChanges({ tasks: updatedTasks });
-//     }
-//   };
-
-//   const handleUpdateTask = (updatedTask) => {
-//     const updatedTasks = specification.tasks.map((task) =>
-//       task.id === updatedTask.id ? updatedTask : task
-//     );
-//     const updatedSpec = { ...specification, tasks: updatedTasks };
-//     setSpecification(updatedSpec);
-//     saveChanges({ tasks: updatedTasks });
-//   };
-
-//   const handleDeleteTask = (taskId) => {
-//     if (window.confirm('Are you sure you want to delete this task?')) {
-//       const updatedTasks = specification.tasks.filter((task) => task.id !== taskId);
-//       const updatedSpec = { ...specification, tasks: updatedTasks };
-//       setSpecification(updatedSpec);
-//       saveChanges({ tasks: updatedTasks });
-//     }
-//   };
-
-//   const handleCreateGroup = () => {
-//     if (!newGroupName.trim()) return;
-
-//     const newGroup = {
-//       id: `group-${Date.now()}`,
-//       name: newGroupName,
-//       color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-//     };
-
-//     const updatedGroups = [...(specification.groups || []), newGroup];
-//     const updatedSpec = { ...specification, groups: updatedGroups };
-//     setSpecification(updatedSpec);
-//     saveChanges({ groups: updatedGroups });
-//     setNewGroupName('');
-//     setShowNewGroupForm(false);
-//   };
-
-//   const handleUpdateGroup = (updatedGroup) => {
-//     const updatedGroups = specification.groups.map((group) =>
-//       group.id === updatedGroup.id ? updatedGroup : group
-//     );
-//     const updatedSpec = { ...specification, groups: updatedGroups };
-//     setSpecification(updatedSpec);
-//     saveChanges({ groups: updatedGroups });
-//   };
-
-//   const handleDeleteGroup = (groupId) => {
-//     if (window.confirm('Are you sure you want to delete this group? Tasks will be moved to ungrouped.')) {
-//       // Move tasks from this group to ungrouped
-//       const updatedTasks = specification.tasks.map((task) =>
-//         task.groupId === groupId ? { ...task, groupId: null } : task
-//       );
-//       const updatedGroups = specification.groups.filter((group) => group.id !== groupId);
-//       const updatedSpec = { ...specification, tasks: updatedTasks, groups: updatedGroups };
-//       setSpecification(updatedSpec);
-//       saveChanges({ tasks: updatedTasks, groups: updatedGroups });
-//     }
-//   };
-
-//   const handleUpdateRisks = (risks) => {
-//     const updatedSpec = { ...specification, risks };
-//     setSpecification(updatedSpec);
-//     saveChanges({ risks });
-//   };
-
-//   const handleUpdateUnknowns = (unknowns) => {
-//     const updatedSpec = { ...specification, unknowns };
-//     setSpecification(updatedSpec);
-//     saveChanges({ unknowns });
-//   };
-
-//   const handleDeleteSpecification = async () => {
-//     if (window.confirm('Are you sure you want to delete this entire specification?')) {
-//       try {
-//         await deleteSpecification(id);
-//         navigate('/');
-//       } catch (err) {
-//         alert('Failed to delete specification');
-//       }
-//     }
-//   };
-
-//   if (loading) {
-//     return (
-//       <div className="tasks-page">
-//         <div className="tasks-container">
-//           <LoadingSpinner text="Loading specification..." />
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   if (error || !specification) {
-//     return (
-//       <div className="tasks-page">
-//         <div className="tasks-container">
-//           <div className="alert alert-error">
-//             <AlertCircle size={20} />
-//             <span>{error || 'Specification not found'}</span>
-//           </div>
-//           <button onClick={() => navigate('/')} className="btn btn-primary">
-//             <ArrowLeft size={18} />
-//             Back to Home
-//           </button>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   const ungroupedTasks = specification.tasks.filter((task) => !task.groupId);
-//   const userStories = ungroupedTasks.filter((t) => t.type === 'user_story');
-//   const engineeringTasks = ungroupedTasks.filter((t) => t.type === 'engineering_task');
-
-//   return (
-//     <div className="tasks-page">
-//       <div className="tasks-container">
-//         {/* Header */}
-//         <div className="tasks-header">
-//           <button onClick={() => navigate('/')} className="btn-icon">
-//             <ArrowLeft size={20} />
-//           </button>
-//           <h1 className="tasks-title">Specification Details</h1>
-//           <div className="tasks-actions">
-//             <button onClick={() => setShowExportModal(true)} className="btn btn-secondary">
-//               <Download size={18} />
-//               Export
-//             </button>
-//             <button onClick={handleDeleteSpecification} className="btn btn-danger">
-//               <Trash2 size={18} />
-//               Delete
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Feature Idea Summary */}
-//         <div className="feature-summary">
-//           <h2>Feature Idea</h2>
-//           <div className="summary-grid">
-//             <div className="summary-item">
-//               <span className="summary-label">Goal:</span>
-//               <p>{specification.featureIdea.goal}</p>
-//             </div>
-//             <div className="summary-item">
-//               <span className="summary-label">Users:</span>
-//               <p>{specification.featureIdea.users}</p>
-//             </div>
-//             <div className="summary-item">
-//               <span className="summary-label">Constraints:</span>
-//               <p>{specification.featureIdea.constraints}</p>
-//             </div>
-//             <div className="summary-item">
-//               <span className="summary-label">Template:</span>
-//               <p>{specification.featureIdea.template}</p>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Risks and Unknowns */}
-//         <div className="risks-unknowns-section">
-//           <div className="risk-card">
-//             <h3>🚨 Risks</h3>
-//             <textarea
-//               value={specification.risks || ''}
-//               onChange={(e) => handleUpdateRisks(e.target.value)}
-//               className="risk-textarea"
-//               placeholder="Identify potential risks..."
-//               rows="4"
-//             />
-//           </div>
-//           <div className="risk-card">
-//             <h3>❓ Unknowns</h3>
-//             <textarea
-//               value={specification.unknowns || ''}
-//               onChange={(e) => handleUpdateUnknowns(e.target.value)}
-//               className="risk-textarea"
-//               placeholder="List open questions and unknowns..."
-//               rows="4"
-//             />
-//           </div>
-//         </div>
-
-//         {/* Task Groups */}
-//         {specification.groups && specification.groups.length > 0 && (
-//           <div className="groups-section">
-//             <h2>Task Groups</h2>
-//             <DragDropContext onDragEnd={handleDragEnd}>
-//               {specification.groups.map((group) => (
-//                 <TaskGroup
-//                   key={group.id}
-//                   group={group}
-//                   tasks={specification.tasks}
-//                   onUpdateGroup={handleUpdateGroup}
-//                   onDeleteGroup={handleDeleteGroup}
-//                   onUpdateTask={handleUpdateTask}
-//                   onDeleteTask={handleDeleteTask}
-//                 />
-//               ))}
-//             </DragDropContext>
-//           </div>
-//         )}
-
-//         {/* Create New Group */}
-//         <div className="new-group-section">
-//           {showNewGroupForm ? (
-//             <div className="new-group-form">
-//               <input
-//                 type="text"
-//                 value={newGroupName}
-//                 onChange={(e) => setNewGroupName(e.target.value)}
-//                 placeholder="Enter group name..."
-//                 className="new-group-input"
-//                 onKeyPress={(e) => e.key === 'Enter' && handleCreateGroup()}
-//               />
-//               <button onClick={handleCreateGroup} className="btn btn-primary btn-sm">
-//                 Create
-//               </button>
-//               <button
-//                 onClick={() => {
-//                   setShowNewGroupForm(false);
-//                   setNewGroupName('');
-//                 }}
-//                 className="btn btn-secondary btn-sm"
-//               >
-//                 Cancel
-//               </button>
-//             </div>
-//           ) : (
-//             <button
-//               onClick={() => setShowNewGroupForm(true)}
-//               className="btn btn-outline"
-//             >
-//               <FolderPlus size={18} />
-//               Create Task Group
-//             </button>
-//           )}
-//         </div>
-
-//         {/* Ungrouped Tasks */}
-//         <DragDropContext onDragEnd={handleDragEnd}>
-//           <div className="tasks-section">
-//             <h2>User Stories ({userStories.length})</h2>
-//             <Droppable droppableId="ungrouped" type="TASK">
-//               {(provided, snapshot) => (
-//                 <div
-//                   ref={provided.innerRef}
-//                   {...provided.droppableProps}
-//                   className={`tasks-list ${snapshot.isDraggingOver ? 'drag-over' : ''}`}
-//                 >
-//                   {userStories.length === 0 ? (
-//                     <div className="empty-state-small">
-//                       <p>No user stories yet</p>
-//                     </div>
-//                   ) : (
-//                     userStories.map((task, index) => (
-//                       <Draggable key={task.id} draggableId={task.id} index={index}>
-//                         {(provided, snapshot) => (
-//                           <div ref={provided.innerRef} {...provided.draggableProps}>
-//                             <TaskItem
-//                               task={task}
-//                               onUpdate={handleUpdateTask}
-//                               onDelete={handleDeleteTask}
-//                               provided={provided}
-//                               isDragging={snapshot.isDragging}
-//                             />
-//                           </div>
-//                         )}
-//                       </Draggable>
-//                     ))
-//                   )}
-//                   {provided.placeholder}
-//                 </div>
-//               )}
-//             </Droppable>
-//           </div>
-
-//           <div className="tasks-section">
-//             <h2>Engineering Tasks ({engineeringTasks.length})</h2>
-//             <Droppable droppableId="ungrouped" type="TASK">
-//               {(provided, snapshot) => (
-//                 <div
-//                   ref={provided.innerRef}
-//                   {...provided.droppableProps}
-//                   className={`tasks-list ${snapshot.isDraggingOver ? 'drag-over' : ''}`}
-//                 >
-//                   {engineeringTasks.length === 0 ? (
-//                     <div className="empty-state-small">
-//                       <p>No engineering tasks yet</p>
-//                     </div>
-//                   ) : (
-//                     engineeringTasks.map((task, index) => (
-//                       <Draggable
-//                         key={task.id}
-//                         draggableId={task.id}
-//                         index={userStories.length + index}
-//                       >
-//                         {(provided, snapshot) => (
-//                           <div ref={provided.innerRef} {...provided.draggableProps}>
-//                             <TaskItem
-//                               task={task}
-//                               onUpdate={handleUpdateTask}
-//                               onDelete={handleDeleteTask}
-//                               provided={provided}
-//                               isDragging={snapshot.isDragging}
-//                             />
-//                           </div>
-//                         )}
-//                       </Draggable>
-//                     ))
-//                   )}
-//                   {provided.placeholder}
-//                 </div>
-//               )}
-//             </Droppable>
-//           </div>
-//         </DragDropContext>
-
-//         {/* Export Modal */}
-//         {showExportModal && (
-//           <ExportModal specification={specification} onClose={() => setShowExportModal(false)} />
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default TasksList;
-
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
   ArrowLeft,
   Download,
@@ -415,12 +8,16 @@ import {
   FolderPlus,
   AlertCircle,
   Sparkles,
-} from 'lucide-react';
-import TaskItem from './TaskItem';
-import TaskGroup from './TaskGroup';
-import ExportModal from './ExportModal';
-import LoadingSpinner from './LoadingSpinner';
-import { getSpecification, updateSpecification, deleteSpecification } from '../services/api';
+} from "lucide-react";
+import TaskItem from "./TaskItem";
+import TaskGroup from "./TaskGroup";
+import ExportModal from "./ExportModal";
+import LoadingSpinner from "./LoadingSpinner";
+import {
+  getSpecification,
+  updateSpecification,
+  deleteSpecification,
+} from "../services/api";
 
 const TasksList = () => {
   const { id } = useParams();
@@ -430,7 +27,7 @@ const TasksList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showExportModal, setShowExportModal] = useState(false);
-  const [newGroupName, setNewGroupName] = useState('');
+  const [newGroupName, setNewGroupName] = useState("");
   const [showNewGroupForm, setShowNewGroupForm] = useState(false);
 
   useEffect(() => {
@@ -443,7 +40,7 @@ const TasksList = () => {
       const response = await getSpecification(id);
       setSpecification(response.data);
     } catch (err) {
-      setError('Failed to load specification');
+      setError("Failed to load specification");
       console.error(err);
     } finally {
       setLoading(false);
@@ -454,7 +51,7 @@ const TasksList = () => {
     try {
       await updateSpecification(id, updatedData);
     } catch (err) {
-      console.error('Failed to save changes:', err);
+      console.error("Failed to save changes:", err);
     }
   };
 
@@ -472,19 +69,22 @@ const TasksList = () => {
     }
 
     const updatedTasks = Array.from(specification.tasks);
-    
+
     // Find the task being moved
     const sourceGroupTasks = updatedTasks.filter(
-      (task) => task.groupId === (source.droppableId === 'ungrouped' ? null : source.droppableId)
+      (task) =>
+        task.groupId ===
+        (source.droppableId === "ungrouped" ? null : source.droppableId),
     );
     const [movedTask] = sourceGroupTasks.splice(source.index, 1);
 
     // Update the task's groupId
-    movedTask.groupId = destination.droppableId === 'ungrouped' ? null : destination.droppableId;
+    movedTask.groupId =
+      destination.droppableId === "ungrouped" ? null : destination.droppableId;
 
     // Get destination group tasks
     const destinationGroupTasks = updatedTasks.filter(
-      (task) => task.groupId === movedTask.groupId && task.id !== movedTask.id
+      (task) => task.groupId === movedTask.groupId && task.id !== movedTask.id,
     );
 
     // Insert at new position
@@ -492,13 +92,15 @@ const TasksList = () => {
 
     // Rebuild the tasks array maintaining order
     const otherTasks = updatedTasks.filter(
-      (task) => task.groupId !== movedTask.groupId && task.id !== movedTask.id
+      (task) => task.groupId !== movedTask.groupId && task.id !== movedTask.id,
     );
 
-    const finalTasks = [...otherTasks, ...destinationGroupTasks].map((task, index) => ({
-      ...task,
-      order: index,
-    }));
+    const finalTasks = [...otherTasks, ...destinationGroupTasks].map(
+      (task, index) => ({
+        ...task,
+        order: index,
+      }),
+    );
 
     const updatedSpec = { ...specification, tasks: finalTasks };
     setSpecification(updatedSpec);
@@ -507,7 +109,7 @@ const TasksList = () => {
 
   const handleUpdateTask = (updatedTask) => {
     const updatedTasks = specification.tasks.map((task) =>
-      task.id === updatedTask.id ? updatedTask : task
+      task.id === updatedTask.id ? updatedTask : task,
     );
     const updatedSpec = { ...specification, tasks: updatedTasks };
     setSpecification(updatedSpec);
@@ -515,8 +117,10 @@ const TasksList = () => {
   };
 
   const handleDeleteTask = (taskId) => {
-    if (window.confirm('Are you sure you want to delete this task?')) {
-      const updatedTasks = specification.tasks.filter((task) => task.id !== taskId);
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      const updatedTasks = specification.tasks.filter(
+        (task) => task.id !== taskId,
+      );
       const updatedSpec = { ...specification, tasks: updatedTasks };
       setSpecification(updatedSpec);
       saveChanges({ tasks: updatedTasks });
@@ -529,20 +133,22 @@ const TasksList = () => {
     const newGroup = {
       id: `group-${Date.now()}`,
       name: newGroupName,
-      color: `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`,
+      color: `#${Math.floor(Math.random() * 16777215)
+        .toString(16)
+        .padStart(6, "0")}`,
     };
 
     const updatedGroups = [...(specification.groups || []), newGroup];
     const updatedSpec = { ...specification, groups: updatedGroups };
     setSpecification(updatedSpec);
     saveChanges({ groups: updatedGroups });
-    setNewGroupName('');
+    setNewGroupName("");
     setShowNewGroupForm(false);
   };
 
   const handleUpdateGroup = (updatedGroup) => {
     const updatedGroups = specification.groups.map((group) =>
-      group.id === updatedGroup.id ? updatedGroup : group
+      group.id === updatedGroup.id ? updatedGroup : group,
     );
     const updatedSpec = { ...specification, groups: updatedGroups };
     setSpecification(updatedSpec);
@@ -552,14 +158,20 @@ const TasksList = () => {
   const handleDeleteGroup = (groupId) => {
     if (
       window.confirm(
-        'Are you sure you want to delete this group? Tasks will be moved to ungrouped.'
+        "Are you sure you want to delete this group? Tasks will be moved to ungrouped.",
       )
     ) {
       const updatedTasks = specification.tasks.map((task) =>
-        task.groupId === groupId ? { ...task, groupId: null } : task
+        task.groupId === groupId ? { ...task, groupId: null } : task,
       );
-      const updatedGroups = specification.groups.filter((group) => group.id !== groupId);
-      const updatedSpec = { ...specification, tasks: updatedTasks, groups: updatedGroups };
+      const updatedGroups = specification.groups.filter(
+        (group) => group.id !== groupId,
+      );
+      const updatedSpec = {
+        ...specification,
+        tasks: updatedTasks,
+        groups: updatedGroups,
+      };
       setSpecification(updatedSpec);
       saveChanges({ tasks: updatedTasks, groups: updatedGroups });
     }
@@ -578,12 +190,16 @@ const TasksList = () => {
   };
 
   const handleDeleteSpecification = async () => {
-    if (window.confirm('Are you sure you want to delete this entire specification?')) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this entire specification?",
+      )
+    ) {
       try {
         await deleteSpecification(id);
-        navigate('/');
+        navigate("/");
       } catch (err) {
-        alert('Failed to delete specification');
+        alert("Failed to delete specification");
       }
     }
   };
@@ -606,10 +222,12 @@ const TasksList = () => {
           </div>
           <div>
             <h2 className="text-2xl font-bold text-slate-800 mb-2">Oops!</h2>
-            <p className="text-slate-600">{error || 'Specification not found'}</p>
+            <p className="text-slate-600">
+              {error || "Specification not found"}
+            </p>
           </div>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white font-semibold rounded-xl shadow-lg transition-all duration-200"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -621,8 +239,10 @@ const TasksList = () => {
   }
 
   const ungroupedTasks = specification.tasks.filter((task) => !task.groupId);
-  const userStories = ungroupedTasks.filter((t) => t.type === 'user_story');
-  const engineeringTasks = ungroupedTasks.filter((t) => t.type === 'engineering_task');
+  const userStories = ungroupedTasks.filter((t) => t.type === "user_story");
+  const engineeringTasks = ungroupedTasks.filter(
+    (t) => t.type === "engineering_task",
+  );
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -632,13 +252,15 @@ const TasksList = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 space-y-4 sm:space-y-0 animate-slide-down">
             <div className="flex items-center space-x-4">
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 className="p-2 rounded-lg hover:bg-white/60 transition-colors"
               >
                 <ArrowLeft className="w-6 h-6 text-slate-700" />
               </button>
               <div>
-                <h1 className="text-3xl font-bold gradient-text">Specification Details</h1>
+                <h1 className="text-3xl font-bold gradient-text">
+                  Specification Details
+                </h1>
                 <p className="text-sm text-slate-600 mt-1">
                   Edit, organize, and export your tasks
                 </p>
@@ -666,15 +288,28 @@ const TasksList = () => {
           <div className="glass rounded-2xl p-6 sm:p-8 mb-8 animate-slide-up card-hover">
             <div className="flex items-center space-x-2 mb-6">
               <Sparkles className="w-6 h-6 text-primary-600" />
-              <h2 className="text-2xl font-bold text-slate-800">Feature Idea</h2>
+              <h2 className="text-2xl font-bold text-slate-800">
+                Feature Idea
+              </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <SummaryItem label="Goal" value={specification.featureIdea.goal} />
-              <SummaryItem label="Users" value={specification.featureIdea.users} />
-              <SummaryItem label="Constraints" value={specification.featureIdea.constraints} />
+              <SummaryItem
+                label="Goal"
+                value={specification.featureIdea.goal}
+              />
+              <SummaryItem
+                label="Users"
+                value={specification.featureIdea.users}
+              />
+              <SummaryItem
+                label="Constraints"
+                value={specification.featureIdea.constraints}
+              />
               <SummaryItem
                 label="Template"
-                value={specification.featureIdea.template.replace('_', ' ').toUpperCase()}
+                value={specification.featureIdea.template
+                  .replace("_", " ")
+                  .toUpperCase()}
               />
             </div>
           </div>
@@ -683,13 +318,13 @@ const TasksList = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <RiskCard
               title="🚨 Risks"
-              value={specification.risks || ''}
+              value={specification.risks || ""}
               onChange={handleUpdateRisks}
               placeholder="Identify potential risks..."
             />
             <RiskCard
               title="❓ Unknowns"
-              value={specification.unknowns || ''}
+              value={specification.unknowns || ""}
               onChange={handleUpdateUnknowns}
               placeholder="List open questions and unknowns..."
             />
@@ -698,7 +333,9 @@ const TasksList = () => {
           {/* Task Groups */}
           {specification.groups && specification.groups.length > 0 && (
             <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-6 gradient-text">Task Groups</h2>
+              <h2 className="text-2xl font-bold mb-6 gradient-text">
+                Task Groups
+              </h2>
               {specification.groups.map((group) => (
                 <TaskGroup
                   key={group.id}
@@ -723,7 +360,7 @@ const TasksList = () => {
                   onChange={(e) => setNewGroupName(e.target.value)}
                   placeholder="Enter group name..."
                   className="flex-1 px-4 py-2 rounded-lg border-2 border-primary-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
-                  onKeyPress={(e) => e.key === 'Enter' && handleCreateGroup()}
+                  onKeyPress={(e) => e.key === "Enter" && handleCreateGroup()}
                   autoFocus
                 />
                 <button
@@ -735,7 +372,7 @@ const TasksList = () => {
                 <button
                   onClick={() => {
                     setShowNewGroupForm(false);
-                    setNewGroupName('');
+                    setNewGroupName("");
                   }}
                   className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-lg transition-colors"
                 >
@@ -748,7 +385,9 @@ const TasksList = () => {
                 className="flex items-center space-x-2 px-4 py-2 glass hover:shadow-lg rounded-xl transition-all duration-200 card-hover"
               >
                 <FolderPlus className="w-5 h-5 text-primary-600" />
-                <span className="font-medium text-slate-700">Create Task Group</span>
+                <span className="font-medium text-slate-700">
+                  Create Task Group
+                </span>
               </button>
             )}
           </div>
@@ -768,8 +407,8 @@ const TasksList = () => {
                   {...provided.droppableProps}
                   className={`min-h-[100px] rounded-xl p-3 transition-all duration-200 ${
                     snapshot.isDraggingOver
-                      ? 'bg-purple-50 ring-2 ring-purple-300'
-                      : 'bg-slate-50/50'
+                      ? "bg-purple-50 ring-2 ring-purple-300"
+                      : "bg-slate-50/50"
                   }`}
                 >
                   {userStories.length === 0 ? (
@@ -778,7 +417,11 @@ const TasksList = () => {
                     </div>
                   ) : (
                     userStories.map((task, index) => (
-                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                      <Draggable
+                        key={task.id}
+                        draggableId={task.id}
+                        index={index}
+                      >
                         {(provided, snapshot) => (
                           <TaskItem
                             task={task}
@@ -812,8 +455,8 @@ const TasksList = () => {
                   {...provided.droppableProps}
                   className={`min-h-[100px] rounded-xl p-3 transition-all duration-200 ${
                     snapshot.isDraggingOver
-                      ? 'bg-cyan-50 ring-2 ring-cyan-300'
-                      : 'bg-slate-50/50'
+                      ? "bg-cyan-50 ring-2 ring-cyan-300"
+                      : "bg-slate-50/50"
                   }`}
                 >
                   {engineeringTasks.length === 0 ? (
@@ -822,7 +465,11 @@ const TasksList = () => {
                     </div>
                   ) : (
                     engineeringTasks.map((task, index) => (
-                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                      <Draggable
+                        key={task.id}
+                        draggableId={task.id}
+                        index={index}
+                      >
                         {(provided, snapshot) => (
                           <TaskItem
                             task={task}

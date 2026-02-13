@@ -3,20 +3,20 @@ export const exportAsText = (specification) => {
 
   let text = `FEATURE SPECIFICATION\n`;
   text += `Generated: ${new Date(specification.generatedAt).toLocaleString()}\n`;
-  text += `\n${'='.repeat(60)}\n\n`;
+  text += `\n${"=".repeat(60)}\n\n`;
 
   text += `FEATURE IDEA\n`;
-  text += `${'-'.repeat(60)}\n`;
+  text += `${"-".repeat(60)}\n`;
   text += `Goal: ${featureIdea.goal}\n`;
   text += `Users: ${featureIdea.users}\n`;
   text += `Constraints: ${featureIdea.constraints}\n`;
   text += `Template: ${featureIdea.template}\n\n`;
 
   // User Stories
-  const userStories = tasks.filter((t) => t.type === 'user_story');
+  const userStories = tasks.filter((t) => t.type === "user_story");
   if (userStories.length > 0) {
     text += `USER STORIES (${userStories.length})\n`;
-    text += `${'-'.repeat(60)}\n`;
+    text += `${"-".repeat(60)}\n`;
     userStories.forEach((story, index) => {
       text += `${index + 1}. ${story.title} [${story.priority.toUpperCase()}]\n`;
       text += `   ${story.description}\n\n`;
@@ -24,10 +24,10 @@ export const exportAsText = (specification) => {
   }
 
   // Engineering Tasks
-  const engineeringTasks = tasks.filter((t) => t.type === 'engineering_task');
+  const engineeringTasks = tasks.filter((t) => t.type === "engineering_task");
   if (engineeringTasks.length > 0) {
     text += `ENGINEERING TASKS (${engineeringTasks.length})\n`;
-    text += `${'-'.repeat(60)}\n`;
+    text += `${"-".repeat(60)}\n`;
     engineeringTasks.forEach((task, index) => {
       text += `${index + 1}. ${task.title} [${task.priority.toUpperCase()}]\n`;
       text += `   ${task.description}\n\n`;
@@ -37,7 +37,7 @@ export const exportAsText = (specification) => {
   // Groups
   if (groups && groups.length > 0) {
     text += `TASK GROUPS\n`;
-    text += `${'-'.repeat(60)}\n`;
+    text += `${"-".repeat(60)}\n`;
     groups.forEach((group) => {
       const groupTasks = tasks.filter((t) => t.groupId === group.id);
       text += `\n${group.name} (${groupTasks.length} tasks)\n`;
@@ -51,14 +51,14 @@ export const exportAsText = (specification) => {
   // Risks
   if (risks) {
     text += `RISKS\n`;
-    text += `${'-'.repeat(60)}\n`;
+    text += `${"-".repeat(60)}\n`;
     text += `${risks}\n\n`;
   }
 
   // Unknowns
   if (unknowns) {
     text += `UNKNOWNS\n`;
-    text += `${'-'.repeat(60)}\n`;
+    text += `${"-".repeat(60)}\n`;
     text += `${unknowns}\n\n`;
   }
 
@@ -79,7 +79,7 @@ export const exportAsMarkdown = (specification) => {
   md += `- **Template:** ${featureIdea.template}\n\n`;
 
   // User Stories
-  const userStories = tasks.filter((t) => t.type === 'user_story');
+  const userStories = tasks.filter((t) => t.type === "user_story");
   if (userStories.length > 0) {
     md += `## User Stories (${userStories.length})\n\n`;
     userStories.forEach((story, index) => {
@@ -90,7 +90,7 @@ export const exportAsMarkdown = (specification) => {
   }
 
   // Engineering Tasks
-  const engineeringTasks = tasks.filter((t) => t.type === 'engineering_task');
+  const engineeringTasks = tasks.filter((t) => t.type === "engineering_task");
   if (engineeringTasks.length > 0) {
     md += `## Engineering Tasks (${engineeringTasks.length})\n\n`;
     engineeringTasks.forEach((task, index) => {
@@ -128,10 +128,10 @@ export const exportAsMarkdown = (specification) => {
   return md;
 };
 
-export const downloadFile = (content, filename, type = 'text/plain') => {
+export const downloadFile = (content, filename, type = "text/plain") => {
   const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = url;
   link.download = filename;
   document.body.appendChild(link);

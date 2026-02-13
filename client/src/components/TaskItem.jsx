@@ -1,135 +1,5 @@
-// import React, { useState } from 'react';
-// import { GripVertical, Edit2, Trash2, Save, X } from 'lucide-react';
-
-// const TaskItem = ({ task, onUpdate, onDelete, provided, isDragging }) => {
-//   const [isEditing, setIsEditing] = useState(false);
-//   const [editedTask, setEditedTask] = useState(task);
-
-//   const handleSave = () => {
-//     onUpdate(editedTask);
-//     setIsEditing(false);
-//   };
-
-//   const handleCancel = () => {
-//     setEditedTask(task);
-//     setIsEditing(false);
-//   };
-
-//   const getPriorityColor = (priority) => {
-//     switch (priority) {
-//       case 'high':
-//         return '#ef4444';
-//       case 'medium':
-//         return '#f59e0b';
-//       case 'low':
-//         return '#10b981';
-//       default:
-//         return '#6b7280';
-//     }
-//   };
-
-//   return (
-//     <div
-//       ref={provided.innerRef}
-//       {...provided.draggableProps}
-//       className={`task-item ${isDragging ? 'dragging' : ''} ${
-//         task.type === 'user_story' ? 'user-story' : 'engineering-task'
-//       }`}
-//     >
-//       <div className="task-drag-handle" {...provided.dragHandleProps}>
-//         <GripVertical size={18} />
-//       </div>
-
-//       <div className="task-content">
-//         {isEditing ? (
-//           <div className="task-edit-form">
-//             <input
-//               type="text"
-//               value={editedTask.title}
-//               onChange={(e) =>
-//                 setEditedTask({ ...editedTask, title: e.target.value })
-//               }
-//               className="task-edit-title"
-//               placeholder="Task title"
-//             />
-//             <textarea
-//               value={editedTask.description}
-//               onChange={(e) =>
-//                 setEditedTask({ ...editedTask, description: e.target.value })
-//               }
-//               className="task-edit-description"
-//               placeholder="Task description"
-//               rows="3"
-//             />
-//             <div className="task-edit-actions">
-//               <select
-//                 value={editedTask.priority}
-//                 onChange={(e) =>
-//                   setEditedTask({ ...editedTask, priority: e.target.value })
-//                 }
-//                 className="task-edit-priority"
-//               >
-//                 <option value="high">High Priority</option>
-//                 <option value="medium">Medium Priority</option>
-//                 <option value="low">Low Priority</option>
-//               </select>
-//               <div className="task-edit-buttons">
-//                 <button onClick={handleSave} className="btn-icon btn-success">
-//                   <Save size={16} />
-//                 </button>
-//                 <button onClick={handleCancel} className="btn-icon btn-secondary">
-//                   <X size={16} />
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         ) : (
-//           <>
-//             <div className="task-header">
-//               <h4 className="task-title">{task.title}</h4>
-//               <span
-//                 className="task-priority"
-//                 style={{ backgroundColor: getPriorityColor(task.priority) }}
-//               >
-//                 {task.priority}
-//               </span>
-//             </div>
-//             <p className="task-description">{task.description}</p>
-//             <div className="task-meta">
-//               <span className="task-type">
-//                 {task.type === 'user_story' ? '📖 User Story' : '⚙️ Engineering Task'}
-//               </span>
-//             </div>
-//           </>
-//         )}
-//       </div>
-
-//       {!isEditing && (
-//         <div className="task-actions">
-//           <button
-//             onClick={() => setIsEditing(true)}
-//             className="btn-icon"
-//             title="Edit task"
-//           >
-//             <Edit2 size={16} />
-//           </button>
-//           <button
-//             onClick={() => onDelete(task.id)}
-//             className="btn-icon btn-danger"
-//             title="Delete task"
-//           >
-//             <Trash2 size={16} />
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default TaskItem;
-
-import React, { useState } from 'react';
-import { GripVertical, Edit2, Trash2, Save, X } from 'lucide-react';
+import React, { useState } from "react";
+import { GripVertical, Edit2, Trash2, Save, X } from "lucide-react";
 
 const TaskItem = ({ task, onUpdate, onDelete, provided, snapshot }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -147,14 +17,14 @@ const TaskItem = ({ task, onUpdate, onDelete, provided, snapshot }) => {
 
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case 'high':
-        return 'from-red-500 to-red-600';
-      case 'medium':
-        return 'from-amber-500 to-orange-600';
-      case 'low':
-        return 'from-green-500 to-emerald-600';
+      case "high":
+        return "from-red-500 to-red-600";
+      case "medium":
+        return "from-amber-500 to-orange-600";
+      case "low":
+        return "from-green-500 to-emerald-600";
       default:
-        return 'from-slate-500 to-slate-600';
+        return "from-slate-500 to-slate-600";
     }
   };
 
@@ -164,9 +34,9 @@ const TaskItem = ({ task, onUpdate, onDelete, provided, snapshot }) => {
       {...provided.draggableProps}
       className={`glass rounded-xl p-4 mb-3 transition-all duration-200 ${
         snapshot.isDragging
-          ? 'shadow-2xl scale-105 rotate-2 ring-2 ring-primary-400'
-          : 'hover:shadow-lg'
-      } ${task.type === 'user_story' ? 'border-l-4 border-purple-500' : 'border-l-4 border-cyan-500'}`}
+          ? "shadow-2xl scale-105 rotate-2 ring-2 ring-primary-400"
+          : "hover:shadow-lg"
+      } ${task.type === "user_story" ? "border-l-4 border-purple-500" : "border-l-4 border-cyan-500"}`}
     >
       <div className="flex items-start space-x-3">
         {/* Drag Handle */}
@@ -230,25 +100,31 @@ const TaskItem = ({ task, onUpdate, onDelete, provided, snapshot }) => {
           ) : (
             <>
               <div className="flex items-start justify-between mb-2">
-                <h4 className="font-semibold text-slate-800 flex-1">{task.title}</h4>
+                <h4 className="font-semibold text-slate-800 flex-1">
+                  {task.title}
+                </h4>
                 <span
                   className={`ml-2 px-2 py-1 rounded-lg text-xs font-semibold text-white bg-gradient-to-r ${getPriorityColor(
-                    task.priority
+                    task.priority,
                   )} shadow-sm`}
                 >
                   {task.priority}
                 </span>
               </div>
-              <p className="text-sm text-slate-600 leading-relaxed mb-3">{task.description}</p>
+              <p className="text-sm text-slate-600 leading-relaxed mb-3">
+                {task.description}
+              </p>
               <div className="flex items-center space-x-2">
                 <span
                   className={`inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium ${
-                    task.type === 'user_story'
-                      ? 'bg-purple-100 text-purple-700'
-                      : 'bg-cyan-100 text-cyan-700'
+                    task.type === "user_story"
+                      ? "bg-purple-100 text-purple-700"
+                      : "bg-cyan-100 text-cyan-700"
                   }`}
                 >
-                  {task.type === 'user_story' ? '📖 User Story' : '⚙️ Engineering Task'}
+                  {task.type === "user_story"
+                    ? "📖 User Story"
+                    : "⚙️ Engineering Task"}
                 </span>
               </div>
             </>
