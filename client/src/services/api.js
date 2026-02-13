@@ -1,22 +1,23 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const api = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // Specifications API
 export const generateSpecification = async (featureData) => {
-  const response = await api.post('/specifications/generate', featureData);
+  const response = await api.post("/specifications/generate", featureData);
   return response.data;
 };
 
 export const getRecentSpecifications = async () => {
-  const response = await api.get('/specifications/recent');
+  const response = await api.get("/specifications/recent");
   return response.data;
 };
 
@@ -37,7 +38,7 @@ export const deleteSpecification = async (id) => {
 
 // Status API
 export const getSystemStatus = async () => {
-  const response = await api.get('/status');
+  const response = await api.get("/status");
   return response.data;
 };
 
