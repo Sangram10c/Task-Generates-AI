@@ -91,7 +91,7 @@ Before running this project, make sure you have:
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/Sangram10c/Task-Generates-AI.git
-cd Tasks-Generator-AI
+cd Task-Generates-AI
 ```
 
 ### 2. Install Backend Dependencies
