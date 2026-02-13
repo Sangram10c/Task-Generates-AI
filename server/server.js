@@ -96,7 +96,7 @@ app.use(helmet());
 // CORS Configuration - Support multiple origins
 const allowedOrigins = process.env.CORS_ORIGIN 
   ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
-  : ['http://localhost:3000'];
+  : ['http://localhost:3000', 'https://task-generates-ai.vercel.app'];
 
 app.use(cors({
   origin: function(origin, callback) {
@@ -110,6 +110,8 @@ app.use(cors({
     }
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(express.json());
