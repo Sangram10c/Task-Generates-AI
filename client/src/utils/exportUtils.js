@@ -88,8 +88,7 @@ export const exportAsMarkdown = (specification) => {
       md += `${story.description}\n\n`;
     });
   }
-
-  // Engineering Tasks
+  
   const engineeringTasks = tasks.filter((t) => t.type === "engineering_task");
   if (engineeringTasks.length > 0) {
     md += `## Engineering Tasks (${engineeringTasks.length})\n\n`;
@@ -100,7 +99,7 @@ export const exportAsMarkdown = (specification) => {
     });
   }
 
-  // Groups
+ 
   if (groups && groups.length > 0) {
     md += `## Task Groups\n\n`;
     groups.forEach((group) => {
@@ -113,13 +112,13 @@ export const exportAsMarkdown = (specification) => {
     });
   }
 
-  // Risks
+ 
   if (risks) {
     md += `## Risks\n\n`;
     md += `${risks}\n\n`;
   }
 
-  // Unknowns
+
   if (unknowns) {
     md += `## Unknowns\n\n`;
     md += `${unknowns}\n\n`;

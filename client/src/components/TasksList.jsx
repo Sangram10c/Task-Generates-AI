@@ -30,22 +30,6 @@ const TasksList = () => {
   const [newGroupName, setNewGroupName] = useState("");
   const [showNewGroupForm, setShowNewGroupForm] = useState(false);
 
-  // useEffect(() => {
-  //   fetchSpecification();
-  // }, [id]);
-
-  // const fetchSpecification = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const response = await getSpecification(id);
-  //     setSpecification(response.data);
-  //   } catch (err) {
-  //     setError("Failed to load specification");
-  //     console.error(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const fetchSpecification = useCallback(async () => {
     try {
       setLoading(true);
