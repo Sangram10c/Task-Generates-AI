@@ -1,32 +1,93 @@
+const logger = require('../config/logger');
+const {
+  specificationSchema,
+  updateSpecificationSchema,
+  objectIdSchema,
+} = require('../utils/validationSchemas');
+
+// Validate feature input for generation
 const validateFeatureInput = (req, res, next) => {
-  const { goal, users, constraints, template } = req.body;
+  const { error, value } = specificationSchema.validate(req.body, {
+    abortEarly: false, // Return all errors, not just the first
+    stripUnknown: true, // Remove unknown fields
+  });
 
-  const errors = [];
+  if (error) {
+    const errors = error.details.map((detail) => ({
+      field: detail.path.join('.'),
+      message: detail.message,
+    }));
 
-  if (!goal || goal.trim().length < 10) {
-    errors.push('Goal must be at least 10 characters long');
-  }
+    logger.warn('Feature input validation failed', {
+      errors,
+      body: req.body,
+      ip: req.ip,
+    });
 
-  if (!users || users.trim().length < 5) {
-    errors.push('Users description must be at least 5 characters long');
-  }
-
-  if (!constraints || constraints.trim().length < 5) {
-    errors.push('Constraints must be at least 5 characters long');
-  }
-
-  if (template && !['mobile', 'web', 'internal_tool', 'custom'].includes(template)) {
-    errors.push('Invalid template type');
-  }
-
-  if (errors.length > 0) {
     return res.status(400).json({
       success: false,
-      errors,
+      error: 'Validation failed',
+      details: errors,
+    });
+  }
+
+  // Replace body with validated and sanitized data
+  req.body = value;
+  next();
+};
+
+// Validate specification ID parameter
+const validateSpecificationId = (req, res, next) => {
+  const { error } = objectIdSchema.validate(req.params.id);
+
+  if (error) {
+    logger.warn('Invalid specification ID', {
+      id: req.params.id,
+      error: error.message,
+      ip: req.ip,
+    });
+
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid specification ID format',
     });
   }
 
   next();
 };
 
-module.exports = { validateFeatureInput };
+// Validate update specification data
+const validateUpdateSpecification = (req, res, next) => {
+  const { error, value } = updateSpecificationSchema.validate(req.body, {
+    abortEarly: false,
+    stripUnknown: true,
+  });
+
+  if (error) {
+    const errors = error.details.map((detail) => ({
+      field: detail.path.join('.'),
+      message: detail.message,
+    }));
+
+    logger.warn('Update specification validation failed', {
+      errors,
+      specId: req.params.id,
+      ip: req.ip,
+    });
+
+    return res.status(400).json({
+      success: false,
+      error: 'Validation failed',
+      details: errors,
+    });
+  }
+
+  req.body = value;
+  next();
+};
+
+module.exports = {
+  validateFeatureInput,
+  validateSpecificationId,
+  validateUpdateSpecification,
+};

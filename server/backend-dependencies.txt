@@ -1,0 +1,19 @@
+# Backend - Add these to server/package.json dependencies
+
+# Testing
+npm install --save-dev jest supertest @types/jest
+
+# Logging
+npm install winston winston-daily-rotate-file
+
+# Validation
+npm install joi
+
+# Monitoring
+npm install @sentry/node
+
+# Testing utilities
+npm install --save-dev mongodb-memory-server
+
+# Code quality
+npm install --save-dev eslint prettier eslint-config-prettier

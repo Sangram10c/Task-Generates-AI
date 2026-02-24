@@ -1,6 +1,7 @@
 const Specification = require('../models/Specification');
-const { openrouter } = require('../config/openrouter');
+// const { openrouter } = require('../config/openrouter');
 const { buildPrompt } = require('../utils/promptBuilder');
+const { callAIWithRetry, parseAIResponse } = require('../utils/aiRetry');
 
 
 const generateSpecification = async (req, res) => {
@@ -11,37 +12,36 @@ const generateSpecification = async (req, res) => {
     const prompt = buildPrompt({ goal, users, constraints, template });
 
     
-    const completion = await openrouter.chat.completions.create({
-      model: 'anthropic/claude-3.5-sonnet', 
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
-      max_tokens: 4000,
-      temperature: 0.7,
-    });
+    // const completion = await openrouter.chat.completions.create({
+    //   model: 'anthropic/claude-3.5-sonnet', 
+    //   messages: [
+    //     {
+    //       role: 'user',
+    //       content: prompt,
+    //     },
+    //   ],
+    //   max_tokens: 4000,
+    //   temperature: 0.7,
+    // });
 
-    const responseText = completion.choices[0]?.message?.content;
+    // const responseText = completion.choices[0]?.message?.content;
+    const responseText = await callAIWithRetry(prompt, 3, 1000);
 
-    if (!responseText) {
-      throw new Error('No response from AI');
-    }
+  if (!responseText) {
+    throw new Error('No response from AI');
+  }
 
-   
-    let parsedData;
-    try {
-      
-      const cleanedText = responseText
-        .replace(/```json\n?/g, '')
-        .replace(/```\n?/g, '')
-        .trim();
-      parsedData = JSON.parse(cleanedText);
-    } catch (parseError) {
-      console.error('Failed to parse AI response:', responseText);
-      throw new Error('Failed to parse AI response. Please try again.');
-    }
+  let parsedData;
+  try {
+    const cleanedText = responseText
+      .replace(/```json\n?/g, '')
+      .replace(/```\n?/g, '')
+      .trim();
+    parsedData = JSON.parse(cleanedText);
+  } catch (parseError) {
+    console.error('Failed to parse AI response:', responseText);
+    throw new Error('Failed to parse AI response. Please try again.');
+  }
 
 
     const tasks = [];

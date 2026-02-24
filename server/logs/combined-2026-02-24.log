@@ -1,0 +1,44 @@
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":714,"timestamp":"2026-02-24 14:33:58"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:33:58"}
+{"engineeringTasksCount":1,"level":"info","message":"AI response parsed successfully","timestamp":"2026-02-24 14:33:58","userStoriesCount":1}
+{"body":{"constraints":"Test constraints","goal":"","users":"Test users"},"errors":[{"field":"goal","message":"Goal is required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:33:58"}
+{"body":{"constraints":"Test constraints longer","goal":"Short","users":"Test users longer than minimum"},"errors":[{"field":"goal","message":"Goal must be at least 10 characters long"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:33:58"}
+{"body":{"goal":"Test goal that is long enough"},"errors":[{"field":"users","message":"Target users are required"},{"field":"constraints","message":"Constraints are required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:33:58"}
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":717,"timestamp":"2026-02-24 14:33:58"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:33:58"}
+{"engineeringTasksCount":1,"level":"info","message":"AI response parsed successfully","timestamp":"2026-02-24 14:33:58","userStoriesCount":1}
+{"error":"Invalid specification ID format","id":"invalid-id","ip":"::ffff:127.0.0.1","level":"warn","message":"Invalid specification ID","timestamp":"2026-02-24 14:33:58"}
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":714,"timestamp":"2026-02-24 14:42:14"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:42:14"}
+{"engineeringTasksCount":1,"level":"info","message":"AI response parsed successfully","timestamp":"2026-02-24 14:42:14","userStoriesCount":1}
+{"body":{"constraints":"Test constraints","goal":"","users":"Test users"},"errors":[{"field":"goal","message":"Goal is required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:42:14"}
+{"body":{"constraints":"Test constraints longer","goal":"Short","users":"Test users longer than minimum"},"errors":[{"field":"goal","message":"Goal must be at least 10 characters long"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:42:14"}
+{"body":{"goal":"Test goal that is long enough"},"errors":[{"field":"users","message":"Target users are required"},{"field":"constraints","message":"Constraints are required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:42:14"}
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":717,"timestamp":"2026-02-24 14:42:14"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:42:14"}
+{"engineeringTasksCount":1,"level":"info","message":"AI response parsed successfully","timestamp":"2026-02-24 14:42:14","userStoriesCount":1}
+{"error":"Invalid specification ID format","id":"invalid-id","ip":"::ffff:127.0.0.1","level":"warn","message":"Invalid specification ID","timestamp":"2026-02-24 14:42:14"}
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":714,"timestamp":"2026-02-24 14:44:19"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:44:19"}
+{"body":{"constraints":"Test constraints","goal":"","users":"Test users"},"errors":[{"field":"goal","message":"Goal is required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:44:19"}
+{"body":{"constraints":"Test constraints longer","goal":"Short","users":"Test users longer than minimum"},"errors":[{"field":"goal","message":"Goal must be at least 10 characters long"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:44:19"}
+{"body":{"goal":"Test goal that is long enough"},"errors":[{"field":"users","message":"Target users are required"},{"field":"constraints","message":"Constraints are required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:44:19"}
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":717,"timestamp":"2026-02-24 14:44:19"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:44:19"}
+{"error":"Invalid specification ID format","id":"invalid-id","ip":"::ffff:127.0.0.1","level":"warn","message":"Invalid specification ID","timestamp":"2026-02-24 14:44:19"}
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":714,"timestamp":"2026-02-24 14:44:50"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:44:50"}
+{"body":{"constraints":"Test constraints","goal":"","users":"Test users"},"errors":[{"field":"goal","message":"Goal is required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:44:50"}
+{"body":{"constraints":"Test constraints longer","goal":"Short","users":"Test users longer than minimum"},"errors":[{"field":"goal","message":"Goal must be at least 10 characters long"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:44:50"}
+{"body":{"goal":"Test goal that is long enough"},"errors":[{"field":"users","message":"Target users are required"},{"field":"constraints","message":"Constraints are required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:44:50"}
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":717,"timestamp":"2026-02-24 14:44:50"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:44:50"}
+{"error":"Invalid specification ID format","id":"invalid-id","ip":"::ffff:127.0.0.1","level":"warn","message":"Invalid specification ID","timestamp":"2026-02-24 14:44:50"}
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":714,"timestamp":"2026-02-24 14:47:59"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:47:59"}
+{"body":{"constraints":"Test constraints","goal":"","users":"Test users"},"errors":[{"field":"goal","message":"Goal is required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:47:59"}
+{"body":{"constraints":"Test constraints longer","goal":"Short","users":"Test users longer than minimum"},"errors":[{"field":"goal","message":"Goal must be at least 10 characters long"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:47:59"}
+{"body":{"goal":"Test goal that is long enough"},"errors":[{"field":"users","message":"Target users are required"},{"field":"constraints","message":"Constraints are required"}],"ip":"::ffff:127.0.0.1","level":"warn","message":"Feature input validation failed","timestamp":"2026-02-24 14:47:59"}
+{"attempt":1,"level":"info","maxRetries":3,"message":"AI API call attempt","promptLength":717,"timestamp":"2026-02-24 14:47:59"}
+{"attempt":1,"level":"info","message":"AI API call successful","responseLength":245,"timestamp":"2026-02-24 14:47:59"}
+{"error":"Invalid specification ID format","id":"invalid-id","ip":"::ffff:127.0.0.1","level":"warn","message":"Invalid specification ID","timestamp":"2026-02-24 14:47:59"}

@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "G:\\Projects\\tasks-generator\\server\\logs\\.eafda605be438dec43b171e6d5ff396a446bfc6a-audit.json",
+    "files": [
+        {
+            "date": 1771923833765,
+            "name": "G:\\Projects\\tasks-generator\\server\\logs\\combined-2026-02-24.log",
+            "hash": "7a50334f54aacd941012644df422332e1797fc9222da7405885087a77526baa2"
+        }
+    ],
+    "hashType": "sha256"
+}
