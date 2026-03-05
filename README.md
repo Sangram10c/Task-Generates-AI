@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
 
-An AI-powered full-stack web application that transforms feature ideas into structured user stories and engineering tasks using MERN Stack OpenRouter API.
+An AI-powered full-stack web application that transforms feature ideas into structured user stories and engineering tasks using MERN Stack and OpenRouter API.
 
 ## 🌐 Live Demo
 
@@ -18,7 +18,7 @@ An AI-powered full-stack web application that transforms feature ideas into stru
 ## ✨ Features
 
 ### Core Features
-- 🤖 **AI-Powered Generation** - Uses Claude 3.5 Sonnet to generate comprehensive specifications
+- 🤖 **AI-Powered Generation** - Uses MERN Stack to generate comprehensive specifications
 - 📋 **Template Selection** - Choose from Mobile, Web, Internal Tool, or Custom templates
 - ✏️ **Task Management** - Edit tasks, set priorities (High/Medium/Low), and organize efficiently
 - 🎯 **Drag & Drop** - Reorder tasks intuitively with smooth animations
