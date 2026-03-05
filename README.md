@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
 
-An AI-powered full-stack web application that transforms feature ideas into structured user stories and engineering tasks using Claude 3.5 Sonnet via OpenRouter API.
+An AI-powered full-stack web application that transforms feature ideas into structured user stories and engineering tasks using MERN Stack OpenRouter API.
 
 ## 🌐 Live Demo
 
